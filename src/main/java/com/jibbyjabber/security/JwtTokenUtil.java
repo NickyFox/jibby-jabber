@@ -33,9 +33,9 @@ public class JwtTokenUtil {
     /**
      * Retrieves the clientId from the token.
      */
-    public String getUserIdFromToken(String token) {
+    public Long getUserIdFromToken(String token) {
         Claims claims = getClaimsForToken(token);
-        return claims.get("id").toString();
+        return Long.valueOf(claims.get("id").toString());
     }
 
     /**

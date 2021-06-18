@@ -2,6 +2,7 @@ package com.jibbyjabber.model.client;
 
 import com.jibbyjabber.model.dto.UserReduced;
 import com.jibbyjabber.model.dto.User;
+import com.jibbyjabber.model.dto.UserReducedList;
 import com.jibbyjabber.security.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -38,17 +39,17 @@ public class UserClient {
         return response.getBody();
     }
 
-    public UserReduced modifyUser(UserReduced userReduced) {
-        String url = USER_SERVICE_URL + "/" + userReduced.getId() + "/username";
-        ResponseEntity<UserReduced> response = restTemplate.postForEntity(url, userReduced, UserReduced.class);
+    public UserReduced modifyUser(String username, long userId) {
+        String url = USER_SERVICE_URL + "/" + userId + "/update";
+        ResponseEntity<UserReduced> response = restTemplate.postForEntity(url, username, UserReduced.class);
         return response.getBody();
     }
 
-    public UserReduced modifyPassword(User user) {
-        user.setPassword(passwordEncoderConfig.encoder().encode(user.getPassword()));
-        String url = USER_SERVICE_URL + "/" + user.getId() + "/password";
-        ResponseEntity<UserReduced> response = restTemplate.postForEntity(url, user, UserReduced.class);
-        return response.getBody();
+    public UserReduced modifyPassword(String password, long id) {
+            String encodedPassword = passwordEncoderConfig.encoder().encode(password);
+            String url = USER_SERVICE_URL + "/" + id + "/password";
+            ResponseEntity<UserReduced> response = restTemplate.postForEntity(url, encodedPassword, UserReduced.class);
+            return response.getBody();
     }
 
     public Long registerUser(User user) {
@@ -63,4 +64,9 @@ public class UserClient {
         return userId;
     }
 
+    public UserReducedList searchUsername(String username) {
+        String url = USER_SERVICE_URL + "/search/" + username;
+        ResponseEntity<UserReducedList> response = restTemplate.getForEntity(url,UserReducedList.class);
+        return response.getBody();
+    }
 }

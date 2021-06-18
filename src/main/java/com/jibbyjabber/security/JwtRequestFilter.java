@@ -24,6 +24,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
+    public String TOKEN;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
@@ -35,6 +37,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         // only the Token
         if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
             jwtToken = requestTokenHeader.substring(7);
+            TOKEN = jwtToken;
             try {
                 username = jwtTokenUtil.getEmailFromToken(jwtToken);
             } catch (IllegalArgumentException e) {
