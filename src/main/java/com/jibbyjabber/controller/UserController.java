@@ -1,9 +1,10 @@
 package com.jibbyjabber.controller;
 
 import com.jibbyjabber.model.client.UserClient;
-import com.jibbyjabber.model.dto.User;
-import com.jibbyjabber.model.dto.UserReduced;
-import com.jibbyjabber.model.dto.UserReducedList;
+import com.jibbyjabber.model.dto.user.FollowerDto;
+import com.jibbyjabber.model.dto.user.User;
+import com.jibbyjabber.model.dto.user.UserReduced;
+import com.jibbyjabber.model.dto.user.UserReducedList;
 import com.jibbyjabber.security.JwtRequestFilter;
 import com.jibbyjabber.security.JwtTokenUtil;
 import org.springframework.http.HttpStatus;
@@ -70,6 +71,29 @@ public class UserController {
     @GetMapping("/search/{username}")
     public ResponseEntity<UserReducedList> searchUsername(@PathVariable String username) {
         return new ResponseEntity<>(userClient.searchUsername(username), HttpStatus.OK);
+    }
+
+    @PostMapping("/follow/{userId}")
+    public ResponseEntity<FollowerDto> followUser(@PathVariable Long userId) {
+        String token = jwtRequestFilter.TOKEN;
+        Long id = jwtTokenUtil.getUserIdFromToken(token);
+        FollowerDto followerDto = new FollowerDto(userId, id);
+        FollowerDto followerDtoResponse = userClient.followUser(followerDto);
+        return new ResponseEntity(followerDtoResponse.getTo(), HttpStatus.OK);
+    }
+
+    @GetMapping("/followers")
+    public ResponseEntity<UserReducedList> getFollowers() {
+        String token = jwtRequestFilter.TOKEN;
+        Long id = jwtTokenUtil.getUserIdFromToken(token);
+        return new ResponseEntity<>(userClient.getFollowers(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/followings")
+    public ResponseEntity<UserReducedList> getFollowigs() {
+        String token = jwtRequestFilter.TOKEN;
+        Long id = jwtTokenUtil.getUserIdFromToken(token);
+        return new ResponseEntity<>(userClient.getFollowings(id), HttpStatus.OK);
     }
 
 

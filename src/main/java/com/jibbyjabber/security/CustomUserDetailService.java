@@ -1,7 +1,7 @@
 package com.jibbyjabber.security;
 
 import com.jibbyjabber.model.client.UserClient;
-import com.jibbyjabber.model.dto.User;
+import com.jibbyjabber.model.dto.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

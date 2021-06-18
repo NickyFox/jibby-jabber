@@ -1,7 +1,7 @@
 package com.jibbyjabber.controller;
 
 import com.jibbyjabber.model.client.UserClient;
-import com.jibbyjabber.model.dto.User;
+import com.jibbyjabber.model.dto.user.User;
 import com.jibbyjabber.security.CustomUserDetailService;
 import com.jibbyjabber.security.JwtTokenUtil;
 import com.jibbyjabber.service.AuthService;

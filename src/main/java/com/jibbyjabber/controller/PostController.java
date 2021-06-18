@@ -2,15 +2,18 @@ package com.jibbyjabber.controller;
 
 import com.jibbyjabber.model.PostMapper;
 import com.jibbyjabber.model.client.PostClient;
+import com.jibbyjabber.model.client.UserClient;
 import com.jibbyjabber.model.dto.post.*;
+import com.jibbyjabber.model.dto.user.UserReduced;
+import com.jibbyjabber.model.dto.user.UserReducedList;
 import com.jibbyjabber.security.JwtRequestFilter;
 import com.jibbyjabber.security.JwtTokenUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/post")
@@ -20,12 +23,14 @@ public class PostController {
     private JwtRequestFilter jwtRequestFilter;
     private final JwtTokenUtil jwtTokenUtil;
     private final PostMapper postMapper;
+    private final UserClient userClient;
 
-    public PostController(PostClient postClient, JwtRequestFilter jwtRequestFilter, JwtTokenUtil jwtTokenUtil, PostMapper postMapper) {
+    public PostController(PostClient postClient, JwtRequestFilter jwtRequestFilter, JwtTokenUtil jwtTokenUtil, PostMapper postMapper, UserClient userClient) {
         this.postClient = postClient;
         this.jwtRequestFilter = jwtRequestFilter;
         this.jwtTokenUtil = jwtTokenUtil;
         this.postMapper = postMapper;
+        this.userClient = userClient;
     }
 
     @GetMapping("/getAll/{userId}")
@@ -33,13 +38,15 @@ public class PostController {
         return new ResponseEntity(postClient.getAllPosts(userId), HttpStatus.OK);
     }
 
-    @GetMapping("/getHomePosts/{page}")
-    public ResponseEntity<PostList> getHomePosts(@PathVariable int page){
-        List<Long> userIds =  new ArrayList<>();
-        userIds.add(1L);
-        userIds.add(2L);
-        PageablePostDto pageablePostDto = new PageablePostDto(userIds, page);
-        PostList response = postClient.getHomePosts(pageablePostDto);
+    @GetMapping("/getHomePosts")
+    public ResponseEntity<PostList> getHomePosts(){
+        String token = jwtRequestFilter.TOKEN;
+        Long id = jwtTokenUtil.getUserIdFromToken(token);
+        UserReducedList userReducedList = userClient.getFollowings(id);
+        List<Long> userIds = userReducedList.getUsers().stream().map(UserReduced::getId).collect(Collectors.toList());
+        userIds.add(id);
+        HomePosts homePosts = new HomePosts(userIds);
+        PostList response = postClient.getHomePosts(homePosts);
         return new ResponseEntity(response.getPostsList(), HttpStatus.OK);
     }
 

@@ -1,6 +1,6 @@
 package com.jibbyjabber.security;
 
-import com.jibbyjabber.model.dto.User;
+import com.jibbyjabber.model.dto.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

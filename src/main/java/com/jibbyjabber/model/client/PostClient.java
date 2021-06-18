@@ -1,6 +1,6 @@
 package com.jibbyjabber.model.client;
 
-import com.jibbyjabber.model.dto.post.PageablePostDto;
+import com.jibbyjabber.model.dto.post.HomePosts;
 import com.jibbyjabber.model.dto.post.PostList;
 import com.jibbyjabber.model.dto.post.Posts;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +25,9 @@ public class PostClient {
         return response.getBody();
     }
 
-    public PostList getHomePosts(PageablePostDto pageablePostDto) {
+    public PostList getHomePosts(HomePosts homePosts) {
         String url = USER_SERVICE_URL + "/getHomePosts" ;
-        ResponseEntity<PostList> response = restTemplate.postForEntity(url, pageablePostDto, PostList.class);
+        ResponseEntity<PostList> response = restTemplate.postForEntity(url, homePosts, PostList.class);
         return response.getBody();
     }
 

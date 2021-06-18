@@ -1,4 +1,4 @@
-package com.jibbyjabber.model.dto;
+package com.jibbyjabber.model.dto.user;
 
 public class UserLogin {
     private final String email;

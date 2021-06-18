@@ -1,8 +1,9 @@
 package com.jibbyjabber.model.client;
 
-import com.jibbyjabber.model.dto.UserReduced;
-import com.jibbyjabber.model.dto.User;
-import com.jibbyjabber.model.dto.UserReducedList;
+import com.jibbyjabber.model.dto.user.FollowerDto;
+import com.jibbyjabber.model.dto.user.UserReduced;
+import com.jibbyjabber.model.dto.user.User;
+import com.jibbyjabber.model.dto.user.UserReducedList;
 import com.jibbyjabber.security.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -66,6 +67,23 @@ public class UserClient {
 
     public UserReducedList searchUsername(String username) {
         String url = USER_SERVICE_URL + "/search/" + username;
+        ResponseEntity<UserReducedList> response = restTemplate.getForEntity(url,UserReducedList.class);
+        return response.getBody();
+    }
+
+    public FollowerDto followUser(FollowerDto followerDto) {
+        String url = USER_SERVICE_URL + "/follow";
+        return restTemplate.postForObject(url, followerDto, FollowerDto.class);
+    }
+
+    public UserReducedList getFollowers(Long id) {
+        String url = USER_SERVICE_URL + "/followers/" + id;
+        ResponseEntity<UserReducedList> response = restTemplate.getForEntity(url,UserReducedList.class);
+        return response.getBody();
+    }
+
+    public UserReducedList getFollowings(Long id) {
+        String url = USER_SERVICE_URL + "/followings/" + id;
         ResponseEntity<UserReducedList> response = restTemplate.getForEntity(url,UserReducedList.class);
         return response.getBody();
     }
