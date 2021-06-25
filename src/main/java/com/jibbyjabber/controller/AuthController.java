@@ -1,6 +1,7 @@
 package com.jibbyjabber.controller;
 
 import com.jibbyjabber.model.client.UserClient;
+import com.jibbyjabber.model.dto.TokenResponse;
 import com.jibbyjabber.model.dto.user.User;
 import com.jibbyjabber.security.CustomUserDetailService;
 import com.jibbyjabber.security.JwtTokenUtil;
@@ -38,7 +39,7 @@ public class AuthController {
     }
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-    public ResponseEntity<String> createAuthenticationToken(@RequestBody User authenticationRequest) throws Exception {
+    public ResponseEntity<TokenResponse> createAuthenticationToken(@RequestBody User authenticationRequest) throws Exception {
 
         authenticate(authenticationRequest.getEmail(), authenticationRequest.getPassword());
 
@@ -46,8 +47,8 @@ public class AuthController {
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getEmail());
 
         final String token = jwtTokenUtil.generateWebToken(userDetails, user);
-
-        return ResponseEntity.ok(token);
+        final TokenResponse tokenResponse = new TokenResponse(token);
+        return ResponseEntity.ok(tokenResponse);
     }
 
     private void authenticate(String username, String password) throws Exception {
