@@ -1,8 +1,9 @@
 package com.jibbyjabber.controller;
 
 import com.jibbyjabber.model.client.UserClient;
-import com.jibbyjabber.model.dto.TokenResponse;
+import com.jibbyjabber.model.dto.LoginResponse;
 import com.jibbyjabber.model.dto.user.User;
+import com.jibbyjabber.model.dto.user.UserReduced;
 import com.jibbyjabber.security.CustomUserDetailService;
 import com.jibbyjabber.security.JwtTokenUtil;
 import com.jibbyjabber.service.AuthService;
@@ -39,7 +40,7 @@ public class AuthController {
     }
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-    public ResponseEntity<TokenResponse> createAuthenticationToken(@RequestBody User authenticationRequest) throws Exception {
+    public ResponseEntity<LoginResponse> createAuthenticationToken(@RequestBody User authenticationRequest) throws Exception {
 
         authenticate(authenticationRequest.getEmail(), authenticationRequest.getPassword());
 
@@ -47,8 +48,9 @@ public class AuthController {
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getEmail());
 
         final String token = jwtTokenUtil.generateWebToken(userDetails, user);
-        final TokenResponse tokenResponse = new TokenResponse(token);
-        return ResponseEntity.ok(tokenResponse);
+        UserReduced userReduced = new UserReduced(user.getId(), user.getUsername(), user.getEmail());
+        final LoginResponse loginResponse = new LoginResponse(token, userReduced);
+        return ResponseEntity.ok(loginResponse);
     }
 
     private void authenticate(String username, String password) throws Exception {

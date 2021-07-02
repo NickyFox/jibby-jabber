@@ -12,7 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -35,19 +37,29 @@ public class PostController {
 
     @GetMapping("/getAll/{userId}")
     public ResponseEntity<PostList> getUserModel(@PathVariable Long userId) {
-        return new ResponseEntity(postClient.getAllPosts(userId), HttpStatus.OK);
+        return new ResponseEntity(postClient.getAllPosts(userId).getPostsList(), HttpStatus.OK);
     }
 
     @GetMapping("/getHomePosts")
-    public ResponseEntity<PostList> getHomePosts(){
+    public ResponseEntity<List<Posts>> getHomePosts(){
         String token = jwtRequestFilter.TOKEN;
         Long id = jwtTokenUtil.getUserIdFromToken(token);
+        String username = jwtTokenUtil.getUsernameFromToken(token);
         UserReducedList userReducedList = userClient.getFollowings(id);
-        List<Long> userIds = userReducedList.getUsers().stream().map(UserReduced::getId).collect(Collectors.toList());
+        Map<Long, String> userIdMap = new HashMap<>();
+        List<Long> userIds = userReducedList.getUsers().stream().map( u -> {
+            userIdMap.put(u.getId(), u.getUsername());
+            return u.getId();
+        }).collect(Collectors.toList());
+        userIdMap.put(id, username);
         userIds.add(id);
         HomePosts homePosts = new HomePosts(userIds);
         PostList response = postClient.getHomePosts(homePosts);
-        return new ResponseEntity(response.getPostsList(), HttpStatus.OK);
+        List<Posts> postWithUsername = response.getPostsList().stream().map(p -> {
+            String postUsername = userIdMap.get(p.getUserId());
+            return new Posts(p.getId(), p.getContent(), p.getDate(), p.getUserId(), p.getLikes(), p.getReposts(), p.getMedia(), p.getThreads(), postUsername);
+        }).collect(Collectors.toList());
+        return new ResponseEntity(postWithUsername, HttpStatus.OK);
     }
 
     @PostMapping("/create")

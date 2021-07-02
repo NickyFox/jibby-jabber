@@ -1,15 +1,14 @@
 package com.jibbyjabber.controller;
 
 import com.jibbyjabber.model.client.UserClient;
-import com.jibbyjabber.model.dto.user.FollowerDto;
-import com.jibbyjabber.model.dto.user.User;
-import com.jibbyjabber.model.dto.user.UserReduced;
-import com.jibbyjabber.model.dto.user.UserReducedList;
+import com.jibbyjabber.model.dto.user.*;
 import com.jibbyjabber.security.JwtRequestFilter;
 import com.jibbyjabber.security.JwtTokenUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -56,10 +55,10 @@ public class UserController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<UserReduced> updateUser(@RequestBody String username) {
+    public ResponseEntity<UserReduced> updateUser(@RequestBody UsernameRequest username) {
         String token = jwtRequestFilter.TOKEN;
         Long id = jwtTokenUtil.getUserIdFromToken(token);
-        return new ResponseEntity(userClient.modifyUser(username, id), HttpStatus.OK);
+        return new ResponseEntity(userClient.modifyUser(username.getUsername(), id), HttpStatus.OK);
 
     }
 
@@ -69,8 +68,8 @@ public class UserController {
     }
 
     @GetMapping("/search/{username}")
-    public ResponseEntity<UserReducedList> searchUsername(@PathVariable String username) {
-        return new ResponseEntity<>(userClient.searchUsername(username), HttpStatus.OK);
+    public ResponseEntity<List<UserReduced>> searchUsername(@PathVariable String username) {
+        return new ResponseEntity<>(userClient.searchUsername(username).getUsers(), HttpStatus.OK);
     }
 
     @PostMapping("/follow/{userId}")
@@ -82,18 +81,14 @@ public class UserController {
         return new ResponseEntity(followerDtoResponse.getTo(), HttpStatus.OK);
     }
 
-    @GetMapping("/followers")
-    public ResponseEntity<UserReducedList> getFollowers() {
-        String token = jwtRequestFilter.TOKEN;
-        Long id = jwtTokenUtil.getUserIdFromToken(token);
-        return new ResponseEntity<>(userClient.getFollowers(id), HttpStatus.OK);
+    @GetMapping("/followers/{userId}")
+    public ResponseEntity<List<UserReduced>> getFollowers(@PathVariable Long userId) {
+        return new ResponseEntity<>(userClient.getFollowers(userId).getUsers(), HttpStatus.OK);
     }
 
-    @GetMapping("/followings")
-    public ResponseEntity<UserReducedList> getFollowigs() {
-        String token = jwtRequestFilter.TOKEN;
-        Long id = jwtTokenUtil.getUserIdFromToken(token);
-        return new ResponseEntity<>(userClient.getFollowings(id), HttpStatus.OK);
+    @GetMapping("/followings/{userId}")
+    public ResponseEntity<List<UserReduced>> getFollowings(@PathVariable Long userId) {
+        return new ResponseEntity<>(userClient.getFollowings(userId).getUsers(), HttpStatus.OK);
     }
 
 

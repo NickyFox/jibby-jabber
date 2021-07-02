@@ -31,6 +31,14 @@ public class JwtTokenUtil {
     }
 
     /**
+     * Retrieves the username from the token.
+     */
+    public String getUsernameFromToken(String token) {
+        Claims claims = getClaimsForToken(token);
+        return claims.get("username").toString();
+    }
+
+    /**
      * Retrieves the clientId from the token.
      */
     public Long getUserIdFromToken(String token) {
@@ -73,7 +81,7 @@ public class JwtTokenUtil {
      * compaction of the JWT to a URL-safe string
      */
     private String doGenerateToken(Map<String, Object> claims, String subject) {
-        final long jwtTokenValidity = 1000 * 60 * 24; // a minute in milliseconds
+        final long jwtTokenValidity = 1000 * 60 * 60 * 24; // a minute in milliseconds
         final long now = System.currentTimeMillis();
         return Jwts.builder()
                 .setClaims(claims)
@@ -105,6 +113,7 @@ public class JwtTokenUtil {
         final Map<String, Object> claims = new HashMap<>();
         claims.put("id", user.getId());
         claims.put("email", user.getEmail());
+        claims.put("username", user.getUsername());
         return claims;
     }
 }

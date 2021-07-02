@@ -13,9 +13,22 @@ public class Posts {
     private List<Long>  reposts;
     private String media;
     private List<String> threads;
+    private String username;
 
     public Posts() {
 
+    }
+
+    public Posts(Long id, String content, Timestamp date, Long userId, List<Long> likes, List<Long> reposts, String media, List<String> threads, String username) {
+        this.id = id;
+        this.content = content;
+        this.date = date;
+        this.userId = userId;
+        this.likes = likes;
+        this.reposts = reposts;
+        this.media = media;
+        this.threads = threads;
+        this.username = username;
     }
 
     public Posts(Long id, String content, Timestamp date, Long userId, List<Long> likes, List<Long> reposts, String media, List<String> threads) {
@@ -93,4 +106,15 @@ public class Posts {
         return threads;
     }
 
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }
