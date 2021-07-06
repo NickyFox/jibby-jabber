@@ -49,7 +49,7 @@ public class MessageController {
         List<ChatWithUsernamesReduced> chats = chatMessageListDto.getChatDtoList().stream().map(c -> {
             UserWithUsername user1 = userClient.getUsername(c.getUser1());
             UserWithUsername user2 = userClient.getUsername(c.getUser2());
-            return new ChatWithUsernamesReduced(c.getId(), user1, user2);
+            return new ChatWithUsernamesReduced(c.getId(), user1, user2, c.getMessages());
         }).collect(Collectors.toList());
         return ResponseEntity.ok(chats);
     }

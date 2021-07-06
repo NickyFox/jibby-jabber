@@ -22,7 +22,7 @@ public class MessageClient {
     }
 
     public CompleteChat getChat(Long chatId) {
-        String url = MESSAGE_SERVICE_URL + chatId;
+        String url = MESSAGE_SERVICE_URL + "/messages/" + chatId;
         ResponseEntity<CompleteChat> response = restTemplate.getForEntity(url, CompleteChat.class);
         return response.getBody();
     }

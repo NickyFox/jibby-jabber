@@ -3,20 +3,20 @@ package com.jibbyjabber.model.dto.message;
 import java.util.List;
 
 public class ChatList {
-    List<ChatDto> chatDtoList;
+    List<CompleteChat> chatDtoList;
 
-    public ChatList(List<ChatDto> chatDtoList) {
+    public ChatList(List<CompleteChat> chatDtoList) {
         this.chatDtoList = chatDtoList;
     }
 
     public ChatList() {
     }
 
-    public List<ChatDto> getChatDtoList() {
+    public List<CompleteChat> getChatDtoList() {
         return chatDtoList;
     }
 
-    public void setChatDtoList(List<ChatDto> chatDtoList) {
+    public void setChatDtoList(List<CompleteChat> chatDtoList) {
         this.chatDtoList = chatDtoList;
     }
 }

@@ -1,12 +1,14 @@
 package com.jibbyjabber.model.dto.message;
 
+import java.sql.Timestamp;
+
 public class ChatMessageDto {
     long sender;
     long receiver;
     String content;
-    long date;
+    Timestamp date;
 
-    public ChatMessageDto(long sender, long receiver, String content, long date) {
+    public ChatMessageDto(long sender, long receiver, String content, Timestamp date) {
         this.sender = sender;
         this.receiver = receiver;
         this.content = content;
@@ -16,11 +18,11 @@ public class ChatMessageDto {
     public ChatMessageDto() {
     }
 
-    public long getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(long date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 

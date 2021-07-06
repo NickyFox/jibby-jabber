@@ -8,11 +8,13 @@ public class ChatWithUsernamesReduced {
     long chatId;
     UserWithUsername user1;
     UserWithUsername user2;
+    List<ChatMessageDto> messages;
 
-    public ChatWithUsernamesReduced(long chatId, UserWithUsername user1, UserWithUsername user2) {
+    public ChatWithUsernamesReduced(long chatId, UserWithUsername user1, UserWithUsername user2, List<ChatMessageDto> messages) {
         this.chatId = chatId;
         this.user1 = user1;
         this.user2 = user2;
+        this.messages = messages;
     }
 
     public ChatWithUsernamesReduced() {
@@ -42,4 +44,11 @@ public class ChatWithUsernamesReduced {
         this.user2 = user2;
     }
 
+    public List<ChatMessageDto> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<ChatMessageDto> messages) {
+        this.messages = messages;
+    }
 }
