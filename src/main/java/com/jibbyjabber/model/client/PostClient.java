@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class PostClient {
 
-    private final String USER_SERVICE_URL = "http://localhost:8083/post";
+    private final String USER_SERVICE_URL = "http://jibby-jabber-posts:8080/post";
     @Autowired
     private RestTemplate restTemplate;
 

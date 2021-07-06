@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class MessageClient {
 
-    private final String MESSAGE_SERVICE_URL = "http://localhost:8084/chat";
+    private final String MESSAGE_SERVICE_URL = "http://jibby-jabber-messages:8080/chat";
     @Autowired
     private RestTemplate restTemplate;
 

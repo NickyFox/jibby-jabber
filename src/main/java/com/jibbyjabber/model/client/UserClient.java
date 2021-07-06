@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Component
 public class UserClient {
-    private final String USER_SERVICE_URL = "http://localhost:8082/users";
+    private final String USER_SERVICE_URL = "http://jibby-jabber-users:8080/users";
     private final PasswordEncoder passwordEncoderConfig;
 
     @Autowired
