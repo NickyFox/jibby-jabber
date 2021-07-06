@@ -10,18 +10,18 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class MessageClient {
 
-    private final String MESSAGE_SERVICE_URL = "http://jibby-jabber-messages:8084/chat";
+    private final String MESSAGE_SERVICE_URL = "http://jibby-jabber-messages:8084/";
     @Autowired
     private RestTemplate restTemplate;
 
     public ChatList getAllChats(Long userId) {
-        String url = MESSAGE_SERVICE_URL + "/all/" + userId;
+        String url = MESSAGE_SERVICE_URL + "chats/" + userId;
         ResponseEntity<ChatList> response = restTemplate.getForEntity(url, ChatList.class);
         return response.getBody();
     }
 
     public CompleteChat getChat(Long chatId) {
-        String url = MESSAGE_SERVICE_URL + "/messages/" + chatId;
+        String url = MESSAGE_SERVICE_URL + "chat/messages/" + chatId;
         ResponseEntity<CompleteChat> response = restTemplate.getForEntity(url, CompleteChat.class);
         return response.getBody();
     }
