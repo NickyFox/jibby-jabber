@@ -45,6 +45,7 @@ public class MessageController {
     public ResponseEntity<List<ChatWithUsernamesReduced>> getAllChats() {
         String token = jwtRequestFilter.TOKEN;
         Long id = jwtTokenUtil.getUserIdFromToken(token);
+        System.out.println("CLIENT ID IS" + id);
         ChatList chatMessageListDto = messageClient.getAllChats(id);
         List<ChatWithUsernamesReduced> chats = chatMessageListDto.getChatDtoList().stream().map(c -> {
             UserWithUsername user1 = userClient.getUsername(c.getUser1());

@@ -1,7 +1,6 @@
 package com.jibbyjabber.model.client;
 
 import com.jibbyjabber.model.dto.message.ChatList;
-import com.jibbyjabber.model.dto.message.ChatMessageListDto;
 import com.jibbyjabber.model.dto.message.CompleteChat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
