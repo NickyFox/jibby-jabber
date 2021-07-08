@@ -10,15 +10,15 @@ import org.springframework.web.client.RestTemplate;
 
 @Component
 public class UserClient {
-//    private final String USER_SERVICE_URL = "http://jibby-jabber-users:8082/users";
-    private final String USER_SERVICE_URL;
+    private final String USER_SERVICE_URL = "http://jibby-jabber-users:8082/users";
+//    private final String USER_SERVICE_URL;
     private final PasswordEncoder passwordEncoderConfig;
 
     @Autowired
     private RestTemplate restTemplate;
 
-    public UserClient(@Value("${url.user}") String user_service_url, PasswordEncoder passwordEncoderConfig) {
-        USER_SERVICE_URL = user_service_url;
+    public UserClient(PasswordEncoder passwordEncoderConfig) {
+//        USER_SERVICE_URL = user_service_url;
         this.passwordEncoderConfig = passwordEncoderConfig;
     }
 
