@@ -13,14 +13,8 @@ import org.springframework.web.client.RestTemplate;
 public class PostClient {
 
     private final String POST_SERVICE_URL = "http://jibby-jabber-posts:8083/post";
-//    private final String POST_SERVICE_URL;
     @Autowired
     private RestTemplate restTemplate;
-//
-//    public PostClient(@Value("${url.post}") String post_service_url) {
-//        POST_SERVICE_URL = post_service_url;
-//    }
-//
 
     public PostList getAllPosts(Long userId) {
         String url = POST_SERVICE_URL + "/getAll/" + userId;
