@@ -4,7 +4,6 @@ import com.jibbyjabber.model.dto.post.HomePosts;
 import com.jibbyjabber.model.dto.post.PostList;
 import com.jibbyjabber.model.dto.post.Posts;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
