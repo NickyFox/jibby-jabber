@@ -57,7 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     private void authenticatePaths(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.csrf().disable().cors().and()
+        httpSecurity.csrf().disable()
                 // dont authenticate this particular request
                 .authorizeRequests()
                 .antMatchers("/authenticate").permitAll()
